@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import logo from "./image/logo.jpeg";
 import "./App.css";
 
 const PAGE_PRODUCTS = "products";
@@ -25,9 +25,9 @@ function App() {
       image: "https://csgopedia.com/uploads/blog/image033.jpg",
     },
     {
-      name: "Dragon Splash",
-      price: "6.50",
-      image: "https://csgopedia.com/uploads/blog/image033.jpg",
+      name: "Bayonet | Doppler",
+      price: "321",
+      image: "https://csgopedia.com/uploads/blog/image030.jpg",
     },
     {
       name: "M4A4 | Dragon King",
@@ -42,11 +42,14 @@ function App() {
   ]);
 
   const addToCart = (prod) => {
-    setCart([...cards, prod]);
+    setCart([...cards, { ...prod }]);
   };
 
   const navigateTo = (nextPage) => {
     setPage(nextPage);
+  };
+  const removeFromCart = (productToRemove) => {
+    setCart(cards.filter((prod) => prod !== productToRemove));
   };
 
   const renderProduct = () => (
@@ -60,36 +63,62 @@ function App() {
               <img src={prod.image} alt="" width="100%" />
             </div>
             <br />
-            <button onClick={() => addToCart(prod)}>Add to cart</button>
+            <button onClick={() => addToCart(prod)}>
+              <i className="fa fa-shopping-cart" />
+            </button>
           </div>
         );
       })}
     </>
   );
   const renderCart = () => (
-    <>
-      {cards.map((prod) => {
-        return (
-          <div key={prod.name} className="cards">
-            <p className="title">{prod.name}</p>
-            <h4 className="price">${prod.price}</h4>
-            <div className="image">
-              <img src={prod.image} alt="" width="100%" />
+    <div className="orderBtn">
+      <p style={{ marginBottom: "0px", textDecoration: "underline" }}>
+        Order button down below!
+      </p>
+      <div className="cardBox">
+        {cards.map((prod) => {
+          return (
+            <div key={prod.name} className="cards">
+              <p className="title">{prod.name}</p>
+              <h4 className="price">${prod.price}</h4>
+              <div className="image">
+                <img src={prod.image} alt="" width="100%" />
+              </div>
+              <br />
+              <button onClick={() => removeFromCart(prod)}>
+                <i
+                  className="fas fa-dumpster-fire"
+                  style={{ color: "red" }}
+                ></i>
+              </button>
             </div>
-            <br />
-            {/* <button onClick={() => addToCart(prod)}>Add to cart</button> */}
-          </div>
-        );
-      })}
-      <button>Order Now!</button>
-    </>
+          );
+        })}
+      </div>
+
+      <button
+        className="button"
+        style={{
+          width: "115px",
+        }}
+      >
+        Order Now!
+      </button>
+    </div>
   );
   return (
     <div className="App">
-      <button onClick={() => navigateTo(PAGE_PRODUCTS)}>View Products</button>
-      <button onClick={() => navigateTo(PAGE_CART)}>Go to cart</button>
-      <h2 style={{ color: "lightBlue" }}>You cart ({cards.length})</h2>
-
+      <div className="navBtns">
+        <div className="productBtn" onClick={() => navigateTo(PAGE_PRODUCTS)}>
+          View Products
+        </div>
+        <img src={logo} width="15%" alt="" />
+        <div className="button" onClick={() => navigateTo(PAGE_CART)}>
+          View Cart
+          <i className="fa fa-shopping-cart" />
+        </div>
+      </div>
       <div id="container">
         {page === PAGE_PRODUCTS && renderProduct()}
         {page === PAGE_CART && renderCart()}
