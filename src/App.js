@@ -8,6 +8,7 @@ const PAGE_CART = "cart";
 function App() {
   const [cards, setCart] = useState([]);
   const [page, setPage] = useState(PAGE_PRODUCTS);
+  const [steam, setSteam] = useState(false);
   const [products] = useState([
     {
       name: "M4A4-S | Vandall",
@@ -96,15 +97,39 @@ function App() {
           );
         })}
       </div>
-
-      <button
-        className="button"
-        style={{
-          width: "115px",
-        }}
-      >
-        Order Now!
-      </button>
+      {steam === false ? (
+        <button
+          className="button"
+          onClick={() => setSteam(!steam)}
+          style={{
+            width: "115px",
+          }}
+        >
+          Order Now!
+        </button>
+      ) : (
+        <div>
+          <h3 style={{ color: "red" }}>Please provide your Steam Trade URL!</h3>
+          <input
+            style={{
+              width: "350px",
+              height: "30px",
+              borderRadius: "4px",
+              border: "none",
+            }}
+            placeholder="URL"
+            type="text"
+          />
+          <button
+            className="button"
+            style={{
+              width: "115px",
+            }}
+          >
+            Place Order
+          </button>
+        </div>
+      )}
     </div>
   );
   return (
